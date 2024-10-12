@@ -1,7 +1,6 @@
 package com.github.mkikets99.lntumessengerproject
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -15,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.mkikets99.lntumessengerproject.ui.theme.LNTUMessengerProjectTheme
 
 class MainActivity : ComponentActivity() {
@@ -39,16 +39,20 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun TestMessenger(modifier: Modifier = Modifier, viewModel: MainViewModel = viewModel()) {
+fun TestMessenger(
+    modifier: Modifier = Modifier,
+    gameViewModel: MainViewModel = viewModel()
+) {
+
     Column(modifier = modifier.padding(16.dp)) {
         Button(onClick = {
-            // TODO: impl
+            gameViewModel.getData()
         }) {
             Text(text = "Get data")
         }
 
         Button(onClick = {
-            // TODO: impl
+            gameViewModel.setData()
         }) {
             Text(text = "Set data")
         }
