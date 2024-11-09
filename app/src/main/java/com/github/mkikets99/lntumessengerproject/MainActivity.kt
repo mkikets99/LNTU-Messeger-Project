@@ -15,29 +15,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.github.mkikets99.lntumessengerproject.ui.theme.LNTUMessengerProjectTheme
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            LNTUMessengerProjectTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
-                    TestMessenger(Modifier.padding(innerPadding))
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = "AuthActivity", builder = {
+                composable("SplashScreen"){
+                    SplashScreen()
                 }
+                composable("AuthActivity"){
+                    authActivity(navController)
+                }
+                composable("RegisterActivity"){
+                    Reg()
+                }
+            })
             }
-        }
-//        test(param1 = "MyName") {
-//            Log.d("MyTag","")
-//        }
     }
-}
 
+}
+//@Preview(showBackground = true)
 @Composable
 fun TestMessenger(
     modifier: Modifier = Modifier,
@@ -52,25 +58,9 @@ fun TestMessenger(
         }
 
         Button(onClick = {
-            gameViewModel.setData()
+
         }) {
             Text(text = "Set data")
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    LNTUMessengerProjectTheme {
-        Greeting("Android")
     }
 }
