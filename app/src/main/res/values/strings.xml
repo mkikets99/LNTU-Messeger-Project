@@ -2,4 +2,6 @@
     <string name="app_name">LNTU Messenger Project</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="auth">Auth</string>
+    <string name="authPageString">увійти за допомогою Google</string>
+    <string name="projectName">LNTU Messenger</string>
 </resources>
