@@ -3,12 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
+
     android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:icon="@drawable/google__g__logo"
-        android:text="@string/auth" />
+        android:text="@string/projectName"
+        android:textAlignment="textEnd"
+        android:layout_margin="20dp"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_margin="20dp"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/authPageString"
+            android:textAlignment="center" />
+
+        <Button
+            android:backgroundTint="@color/Grey"
+            android:id="@+id/googleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/auth"
+            app:icon="@drawable/google__g__logo" />
+
+
+    </LinearLayout>
+
 </LinearLayout>
