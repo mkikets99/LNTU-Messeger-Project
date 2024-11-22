@@ -13,11 +13,16 @@
         android:theme="@style/Theme.LNTUMessengerProject"
         tools:targetApi="31">
         <activity
+            android:name=".MainList"
+            android:exported="false"
+            android:label="@string/title_activity_main_list"
+            android:theme="@style/Theme.LNTUMessengerProject.NoActionBar" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.LNTUMessengerProject"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.LNTUMessengerProject.NoActionBar"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

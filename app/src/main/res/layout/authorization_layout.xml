@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +14,7 @@
         android:text="@string/projectName"
         android:textAlignment="textEnd"
         android:layout_margin="20dp"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,13 +25,13 @@
         <TextView
             android:id="@+id/textView"
             android:layout_margin="20dp"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/authPageString"
             android:textAlignment="center" />
 
-        <Button
+        <com.google.android.gms.common.SignInButton
             android:backgroundTint="@color/Grey"
             android:id="@+id/googleButton"
             android:layout_width="wrap_content"
@@ -41,4 +42,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
