@@ -2,11 +2,13 @@ package com.github.mkikets99.lntumessengerproject
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mkikets99.lntumessengerproject.databinding.ActivityMainListBinding
 
 class MainList : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainListBinding
+    private lateinit var adapter: MainListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,8 +18,10 @@ class MainList : AppCompatActivity() {
         val startList = mutableListOf(
             ChatRow("man","sus")
         )
-        val adapter = MainListAdapter(this, startList)
+        adapter = MainListAdapter(startList)
         binding.mainListRootListView.adapter = adapter
+        binding.mainListRootListView.layoutManager = LinearLayoutManager(this)
+
 
         binding.fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)

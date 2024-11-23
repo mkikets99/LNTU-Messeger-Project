@@ -8,12 +8,12 @@
     android:fitsSystemWindows="true"
     tools:context=".MainList">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/mainListRootListView"
         >
-    </ListView>
+    </androidx.recyclerview.widget.RecyclerView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
