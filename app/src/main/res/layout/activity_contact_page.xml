@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ContactPage">
+
+    <Button
+        android:id="@+id/back_b"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text="<"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+    <TextView
+        android:id="@+id/txt_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="User"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/naming"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Naming"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_user" />
+    <LinearLayout
+        android:id="@+id/buttons_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/naming"
+        android:gravity="center"
+        >
+        <Button android:id="@+id/b_add_contact"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Sus"
+            />
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="0dp"/>
+        <Button android:id="@+id/b_chat_contact"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Amo"
+            />
+        <Space
+            android:layout_width="5dp"
+            android:layout_height="0dp"/>
+        <Button android:id="@+id/b_remove_contact"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="gus"
+            />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

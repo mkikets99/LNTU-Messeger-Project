@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun switchToChats(){
         if( auth.currentUser != null) {
-            val intent = Intent(this, MainList::class.java)
+            val intent = Intent(this, MainListActivity::class.java)
             startActivity(intent)
             finish()
         }

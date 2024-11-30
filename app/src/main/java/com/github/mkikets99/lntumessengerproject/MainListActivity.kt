@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mkikets99.lntumessengerproject.databinding.ActivityMainListBinding
 
-class MainList : AppCompatActivity() {
+class MainListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainListBinding
     private lateinit var adapter: MainListAdapter
