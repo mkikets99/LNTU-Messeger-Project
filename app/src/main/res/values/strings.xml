@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">LNTU Messenger Project</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="upload_button_str">upload button</string>
+    <string name="Input_text">Input text</string>
+    <string name="back_button_str">back</string>
+    <string name="user_name">User name</string>
 </resources>
