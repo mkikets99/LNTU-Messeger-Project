@@ -13,6 +13,9 @@
         android:theme="@style/Theme.LNTUMessengerProject"
         tools:targetApi="31">
         <activity
+            android:name=".ContactSearchList"
+            android:exported="false" />
+        <activity
             android:name=".MainList"
             android:exported="false"
             android:label="@string/title_activity_main_list"
