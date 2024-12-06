@@ -88,13 +88,14 @@ class MainActivity : AppCompatActivity() {
     }
     private fun switchToChats(){
         if( auth.currentUser != null) {
-            val user = User(naming.text.toString(),FirebaseAuth.getInstance().uid!!, ArrayList())
+            var user = User(naming.text.toString(),FirebaseAuth.getInstance().uid!!, ArrayList())
 
             database.collection("users").get().addOnSuccessListener {
                 for (docs in it.documents) {
                     if(docs.contains("uuid")&& docs["uuid"]!! == FirebaseAuth.getInstance().uid!!){
-                        database.collection("users").document(docs.id).set(user)
+                        user = docs.toObject(User::class.java)!!
                         user._key = docs.id
+                        database.collection("users").document(docs.id).set(user)
                     }
                 }
                 if (user._key == null){

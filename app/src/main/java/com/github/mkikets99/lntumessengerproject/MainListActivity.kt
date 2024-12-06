@@ -8,6 +8,7 @@ import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.ActivityMainListBinding
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import java.util.ArrayList
@@ -28,12 +29,20 @@ class MainListActivity : AppCompatActivity() {
         binding = ActivityMainListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         chats = ArrayList()
-        adapter = MainListAdapter(this@MainListActivity,chats!!, user!!)
-        binding.mainListRootListView.adapter = adapter
 
         database.collection("users")
             .get().addOnSuccessListener {
+                for (docs in it.documents) {
+                    if (docs.get("uuid") == FirebaseAuth.getInstance().uid) {
+                        user = docs.toObject(User::class.java)
+                        user?._key = docs.id
+                        break
+                    }
+                }
+                adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
+                binding.mainListRootListView.adapter = adapter
 
+            }
 //                (FirebaseAuth.getInstance().uid!!)
 //                    .(object : ValueEventListener {
 //                        override fun onDataChange(snapshot: DataSnapshot) {
@@ -54,7 +63,7 @@ class MainListActivity : AppCompatActivity() {
 //
 //                        override fun onCancelled(error: DatabaseError) {}
 //                    })
-            }
+
 
         binding.mainListRootListView.setOnItemClickListener{ parent,view,position,id, ->
 //            val intent = Intent(this, ContactSearchList::class.java)

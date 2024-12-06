@@ -1,8 +1,11 @@
 package com.github.mkikets99.lntumessengerproject
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -18,6 +21,7 @@ class ContactPage : AppCompatActivity() {
     private lateinit var naming : TextView
     private var name : String? = null
     private var currentUser: User? = null
+    private var currentLookUser: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +29,49 @@ class ContactPage : AppCompatActivity() {
 
 
         setContentView(R.layout.activity_contact_page)
+
+        val msgBtn = findViewById<Button>(R.id.b_chat_contact)
+        val dltBtn = findViewById<Button>(R.id.b_remove_contact)
+        val addBtn = findViewById<Button>(R.id.b_add_contact)
+        val bkBtn = findViewById<Button>(R.id.back_b)
+
+        addBtn.setOnClickListener{
+            currentLookUser!!._key?.let { it1 -> currentUser!!.friends.add(it1) }
+            currentUser!!._key?.let { it1 -> currentLookUser!!.friends.add(it1) }
+            currentLookUser!!._key?.let { it1 -> Firebase.firestore.collection("users").document(it1).set(
+                currentLookUser!!
+            ) }
+            currentUser!!._key?.let { it1 -> Firebase.firestore.collection("users").document(it1).set(
+                currentUser!!
+            ) }
+            addBtn.visibility = View.GONE
+            msgBtn.visibility = View.VISIBLE
+            dltBtn.visibility = View.VISIBLE
+
+        }
+        bkBtn.setOnClickListener{
+            finish()
+        }
+        msgBtn.setOnClickListener{
+            val intent = Intent(this, ContactSearchList::class.java)
+            intent.putExtra("cw",currentLookUser!!._key)
+            startActivity(intent)
+        }
+        dltBtn.setOnClickListener{
+            currentLookUser!!._key?.let { it1 -> currentUser!!.friends.remove(it1) }
+            currentUser!!._key?.let { it1 -> currentLookUser!!.friends.remove(it1) }
+            currentLookUser!!._key?.let { it1 -> Firebase.firestore.collection("users").document(it1).set(
+                currentLookUser!!
+            ) }
+            currentUser!!._key?.let { it1 -> Firebase.firestore.collection("users").document(it1).set(
+                currentUser!!
+            ) }
+            addBtn.visibility = View.VISIBLE
+            msgBtn.visibility = View.GONE
+            dltBtn.visibility = View.GONE
+
+        }
+
         fetchName()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -42,8 +89,14 @@ class ContactPage : AppCompatActivity() {
                         break
                     }
                 }
-
+                if (!currentUser!!.friends.contains(currentLookUser!!._key)){
+                    msgBtn.visibility = View.GONE
+                    dltBtn.visibility = View.GONE
+                }else{
+                    addBtn.visibility = View.GONE
+                }
             }
+
 
         naming = findViewById<TextView>(R.id.naming)
         naming.text = name
@@ -60,10 +113,11 @@ class ContactPage : AppCompatActivity() {
         Firebase.firestore.collection("users")
             .document(userUuid)
             .get().addOnSuccessListener {
-                val usr = it.toObject(User::class.java)
-                Log.d("ContactPage",usr?.name ?: "No val")
-                if (usr != null) {
-                    naming.text = usr.name
+                currentLookUser = it.toObject(User::class.java)
+                currentLookUser!!._key = it.id
+                Log.d("ContactPage",currentLookUser?.name ?: "No val")
+                if (currentLookUser != null) {
+                    naming.text = currentLookUser!!.name
                 } else {
                     naming.text = "Name not available"
                     Log.e("ContactPage", "Name is null for user: $userUuid")
