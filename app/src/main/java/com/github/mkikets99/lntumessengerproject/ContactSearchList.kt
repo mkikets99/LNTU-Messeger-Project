@@ -12,18 +12,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.Firebase
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 
 class ContactSearchList : AppCompatActivity() {
     private var users : ArrayList<User>? = null
     private var user : User? = null
 
-    private val database: FirebaseDatabase = Firebase.database("https://lntu-messenger-project-default-rtdb.europe-west1.firebasedatabase.app/")
+    private val database: FirebaseFirestore = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,26 +38,28 @@ class ContactSearchList : AppCompatActivity() {
             android.R.layout.simple_list_item_1, users!!
         )
         mListView.adapter = arrAdapt
-        database.reference.child("users")
-            .child(FirebaseAuth.getInstance().uid!!)
-            .addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    user = snapshot.getValue(User::class.java)
-                }
-
-                override fun onCancelled(error: DatabaseError) {}
-            })
+        database.collection("users")
+            .get().addOnSuccessListener {
+                    for (snapshot1 in it.documents){
+                        val user: User? = snapshot1.toObject(User::class.java)
+                        if(user!!.uuid.equals(FirebaseAuth.getInstance().uid)) {
+                            this.user = user
+                            break
+                        }
+                    }
+            }
         mListView.setOnItemClickListener { parent, view, position, id ->
             Toast.makeText(this, "Clicked item : $position", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, ContactPage::class.java)
-            intent.putExtra("user", users!![position].toString())
+            intent.putExtra("user", users!![position]._key)
             this.startActivity(intent)
         }
-        database.reference.child("users").get().addOnSuccessListener{
+        database.collection("users").get().addOnSuccessListener{
                 users!!.clear()
-                for (snapshot1 in it.children){
-                    val user: User? = snapshot1.getValue(User::class.java)
-                    if(!user!!.uuid.equals(FirebaseAuth.getInstance().uid)) users!!.add(user)
+                for (snapshot1 in it.documents){
+                    val user: User? = snapshot1.toObject(User::class.java)
+                    user!!._key = snapshot1.id
+                    if(!user.uuid.equals(FirebaseAuth.getInstance().uid)) users!!.add(user)
                 }
                 arrAdapt.notifyDataSetChanged()
             }.addOnFailureListener {

@@ -1,51 +1,41 @@
 package com.github.mkikets99.lntumessengerproject
 
-import android.os.Build
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.recyclerview.widget.RecyclerView
 import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
-import kotlin.collections.ArrayList
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
-@Suppress("UNCHECKED_CAST")
 class MainListAdapter(
-    private val items: ArrayList<Chat>,
+    private val context: Context,
+    val items: MutableList<Chat>,
     private val user: User
-) : RecyclerView.Adapter<MainListAdapter.ViewHolder>() {
+) : BaseAdapter() {
+    override fun getCount(): Int = items.size
+    override fun getItem(p0: Int): Any = items[p0]
+    override fun getItemId(p0: Int): Long = p0.toLong()
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val view: View = convertView ?: LayoutInflater.from(context).inflate(R.layout.chat_rows, parent, false)
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        // Get the current item
+        val item = getItem(position) as Chat
+
+        // Bind data to the views
         val naming: TextView = view.findViewById(R.id.chat_row_naming)
         val texting: TextView = view.findViewById(R.id.chat_row_texting)
+
+        item.users!!.remove(this.user.uuid)
+        Firebase.firestore.collection("users").document(item.users[0]).get().addOnSuccessListener {
+            naming.text = it.getString("name")
+        }
+        texting.text = item.messages!![item.messages.size-1].message
+
+        return view
     }
 
-    override fun getItemCount(): Int = items.size
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
-        // Create a new view, which defines the UI of the list item
-        val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.chat_rows, viewGroup, false)
-
-        return ViewHolder(view)
-    }
-
-    override fun getItemId(p0: Int): Long = p0.toLong()
-    @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
-    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-
-        // Get element from your dataset at this position and replace the
-        // contents of the view with that element
-        val users: ArrayList<User> = items[position].users.clone() as ArrayList<User>
-        users.remove(user)
-        viewHolder.naming.text = users[0].name
-        viewHolder.texting.text = items[position].messages.last.message
-    }
-
-
-    fun addItem(newItem: Chat) {
-        items.add(newItem) // Add new item to the list
-        notifyItemChanged(items.indexOf(newItem)) // Notify the adapter to refresh the ListView
-    }
 }

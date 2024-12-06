@@ -85,5 +85,7 @@ dependencies {
     implementation(libs.play.services.auth.v2070)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.database)
+    implementation(libs.firebase.firestore)
+    implementation(kotlin("reflect"))
 
 }

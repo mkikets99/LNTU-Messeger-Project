@@ -39,6 +39,15 @@
             android:text="@string/auth"
             app:icon="@drawable/google__g__logo" />
 
+        <EditText
+            android:id="@+id/nameField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/name_txt"
+            android:inputType="text"
+            android:autofillHints="" />
+
 
     </LinearLayout>
 
