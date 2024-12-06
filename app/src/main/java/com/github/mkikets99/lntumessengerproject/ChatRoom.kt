@@ -1,17 +1,18 @@
 package com.github.mkikets99.lntumessengerproject
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.github.mkikets99.lntumessengerproject.classes.Chat
+import com.github.mkikets99.lntumessengerproject.classes.Message
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.firestore
 class ChatRoom : AppCompatActivity() {
     private lateinit var userIAm: User
     private lateinit var userIAmWith: User
+    private var currentChat: Chat? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,13 +36,19 @@ class ChatRoom : AppCompatActivity() {
         val message = findViewById<EditText>(R.id.messageEd)
         val send = findViewById<ImageButton>(R.id.sendMessage_b)
 
-        messagesList.adapter = ArrayAdapter<String>(this,0)
+        messagesList.adapter = ArrayAdapter<String>(this,android.R.layout.simple_list_item_1)
 
         backbut.setOnClickListener{
             finish()
         }
         send.setOnClickListener{
-            Toast.makeText(this@ChatRoom,message.text,Toast.LENGTH_SHORT).show()
+            val msg = Message(userIAm._key!!, message.text.toString())
+            currentChat!!.messages!!.add(msg)
+            Firebase.firestore.collection("chats")
+                .document(currentChat!!._key!!).set(currentChat!!).addOnSuccessListener {
+                    (messagesList.adapter as ArrayAdapter<String>).add(buildMessage(msg))
+                    (messagesList.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+            }
         }
 
         Firebase.firestore.collection("users").document(uia!!).get().addOnSuccessListener {
@@ -48,6 +56,32 @@ class ChatRoom : AppCompatActivity() {
             Firebase.firestore.collection("users").document(cw!!).get().addOnSuccessListener {
                 userIAmWith = it.toObject(User::class.java)!!
                 uname.text = userIAmWith.name
+                Firebase.firestore.collection("chats").whereArrayContains("users",
+                    userIAm._key!!).get().addOnSuccessListener {
+                        for(docs in it.documents){
+                            val cha = docs.toObject(Chat::class.java)!!
+                            if(cha.users!!.contains(userIAmWith._key!!)){
+                                currentChat = cha
+                                break
+                            }
+                        }
+                        if(currentChat == null){
+                            currentChat = Chat()
+                            currentChat!!.users!!.add(userIAm._key!!)
+                            currentChat!!.users!!.add(userIAmWith._key!!)
+                            Firebase.firestore.collection("chats").add(currentChat!!).addOnSuccessListener {
+                                currentChat!!._key = it.id
+                            }.addOnFailureListener { ex ->
+                                Log.e("ChatRoomError",ex.message!!)
+                            }
+                        }else{
+                            currentChat = it.documents[0].toObject(Chat::class.java)!!
+                        }
+                    for(msg in buildMessages()){
+                        (messagesList.adapter as ArrayAdapter<String>).add(msg)
+                    }
+                    (messagesList.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                }
             }
         }
 
@@ -60,5 +94,15 @@ class ChatRoom : AppCompatActivity() {
             insets
         }
 
+    }
+    private fun buildMessages(): ArrayList<String> {
+        val out = ArrayList<String>()
+        for(msg in currentChat!!.messages!!){
+            out.add(buildMessage(msg))
+        }
+        return out
+    }
+    private fun buildMessage(msg: Message): String {
+        return ""+(if (userIAm._key==msg.from) userIAm.name else if(userIAmWith._key==msg.from) userIAmWith.name else "Error") + " : " + msg.message
     }
 }

@@ -2,7 +2,6 @@ package com.github.mkikets99.lntumessengerproject
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
@@ -39,17 +38,15 @@ class MainListActivity : AppCompatActivity() {
                         break
                     }
                 }
-                database.collection("chats").get().addOnSuccessListener {
+                database.collection("chats").whereArrayContains("users",user!!._key!!).get().addOnSuccessListener {
                     chats!!.clear()
                     for(chatObj in it.documents){
-                        var chat = chatObj.toObject(Chat::class.java)!!
-                        if(chat.users?.contains(user!!._key) == true){
-                            chats!!.add(chat)
-                        }
+                        val chat = chatObj.toObject(Chat::class.java)!!
+                        chats!!.add(chat)
                     }
+                    adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
+                    binding.mainListRootListView.adapter = adapter
                 }
-                adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
-                binding.mainListRootListView.adapter = adapter
 
             }
 //                (FirebaseAuth.getInstance().uid!!)
@@ -76,10 +73,10 @@ class MainListActivity : AppCompatActivity() {
 
         binding.mainListRootListView.setOnItemClickListener{ parent,view,position,id, ->
             val intent = Intent(this, ChatRoom::class.java)
-            var usersChat = chats!![position].users!!.clone() as ArrayList<String>
+            val usersChat = chats!![position].users!!.clone() as ArrayList<*>
             usersChat.remove(user!!._key)
 
-            intent.putExtra("cw",usersChat[0])
+            intent.putExtra("cw",usersChat[0].toString())
             intent.putExtra("uia",user!!._key)
             startActivity(intent)
 
