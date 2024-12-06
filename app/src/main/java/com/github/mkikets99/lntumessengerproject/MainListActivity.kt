@@ -39,6 +39,15 @@ class MainListActivity : AppCompatActivity() {
                         break
                     }
                 }
+                database.collection("chats").get().addOnSuccessListener {
+                    chats!!.clear()
+                    for(chatObj in it.documents){
+                        var chat = chatObj.toObject(Chat::class.java)!!
+                        if(chat.users?.contains(user!!._key) == true){
+                            chats!!.add(chat)
+                        }
+                    }
+                }
                 adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
                 binding.mainListRootListView.adapter = adapter
 
@@ -66,9 +75,14 @@ class MainListActivity : AppCompatActivity() {
 
 
         binding.mainListRootListView.setOnItemClickListener{ parent,view,position,id, ->
-//            val intent = Intent(this, ContactSearchList::class.java)
-//            startActivity(intent)
-            Log.d("MainListActivity",view.toString())
+            val intent = Intent(this, ChatRoom::class.java)
+            var usersChat = chats!![position].users!!.clone() as ArrayList<String>
+            usersChat.remove(user!!._key)
+
+            intent.putExtra("cw",usersChat[0])
+            intent.putExtra("uia",user!!._key)
+            startActivity(intent)
+
         }
 
 

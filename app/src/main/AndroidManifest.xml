@@ -16,6 +16,9 @@
             android:name=".ContactPage"
             android:exported="false" />
         <activity
+            android:name=".ChatRoom"
+            android:exported="false" />
+        <activity
             android:name=".ContactSearchList"
             android:exported="false" />
         <activity

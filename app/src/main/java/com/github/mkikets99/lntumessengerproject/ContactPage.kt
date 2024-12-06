@@ -53,8 +53,9 @@ class ContactPage : AppCompatActivity() {
             finish()
         }
         msgBtn.setOnClickListener{
-            val intent = Intent(this, ContactSearchList::class.java)
+            val intent = Intent(this, ChatRoom::class.java)
             intent.putExtra("cw",currentLookUser!!._key)
+            intent.putExtra("uia",currentUser!!._key)
             startActivity(intent)
         }
         dltBtn.setOnClickListener{
@@ -72,39 +73,12 @@ class ContactPage : AppCompatActivity() {
 
         }
 
-        fetchName()
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        Firebase.firestore.collection("users")
-            .get().addOnSuccessListener {
-                for(docs in it.documents){
-                    if(docs.get("uuid") == FirebaseAuth.getInstance().uid){
-                        currentUser = docs.toObject(User::class.java)
-                        currentUser?._key = docs.id
-                        break
-                    }
-                }
-                if (!currentUser!!.friends.contains(currentLookUser!!._key)){
-                    msgBtn.visibility = View.GONE
-                    dltBtn.visibility = View.GONE
-                }else{
-                    addBtn.visibility = View.GONE
-                }
-            }
-
-
-        naming = findViewById<TextView>(R.id.naming)
-        naming.text = name
-        // Fetch data from Firebase
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun fetchName(){
         val userUuid = intent.extras?.getString("user") ?: run {
             Log.e("ContactPage", "User UUID is null")
             finish() // Close the activity if user UUID is missing
@@ -118,11 +92,36 @@ class ContactPage : AppCompatActivity() {
                 Log.d("ContactPage",currentLookUser?.name ?: "No val")
                 if (currentLookUser != null) {
                     naming.text = currentLookUser!!.name
+
+                    Firebase.firestore.collection("users")
+                        .get().addOnSuccessListener {
+                            for(docs in it.documents){
+                                if(docs.get("uuid") == FirebaseAuth.getInstance().uid){
+                                    currentUser = docs.toObject(User::class.java)
+                                    currentUser?._key = docs.id
+                                    break
+                                }
+                            }
+                            if (!currentUser!!.friends.contains(currentLookUser!!._key)){
+                                msgBtn.visibility = View.GONE
+                                dltBtn.visibility = View.GONE
+                            }else{
+                                addBtn.visibility = View.GONE
+                            }
+                        }
                 } else {
                     naming.text = "Name not available"
                     Log.e("ContactPage", "Name is null for user: $userUuid")
+                    finish()
                 }
             }
+
+
+
+        naming = findViewById<TextView>(R.id.naming)
+        naming.text = name
+        // Fetch data from Firebase
     }
+
 
 }

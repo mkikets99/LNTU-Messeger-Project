@@ -22,18 +22,19 @@
         app:srcCompat="@drawable/button_arrow_back" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
+        android:id="@+id/chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText"
+        app:layout_constraintBottom_toTopOf="@+id/messageEd"
         app:layout_constraintRight_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/username_title"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/username_title"
         android:layout_width="348dp"
         android:layout_height="42dp"
         android:layout_weight="1"
@@ -45,7 +46,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextText"
+        android:id="@+id/messageEd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
@@ -55,11 +56,11 @@
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/button4" />
+        app:layout_constraintRight_toLeftOf="@id/sendMessage_b" />
 
     <ImageButton
         android:contentDescription="@string/upload_button_str"
-        android:id="@+id/button4"
+        android:id="@+id/sendMessage_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
