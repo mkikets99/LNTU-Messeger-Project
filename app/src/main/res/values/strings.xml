@@ -101,4 +101,9 @@
     <string name="Input_text">Input text</string>
     <string name="back_button_str">back</string>
     <string name="user_name">User name</string>
+    <string name="back_arrow"><![CDATA[<]]></string>
+    <string name="add_contact_str">Add Contact</string>
+    <string name="message_str">Message</string>
+    <string name="delete_contact_str">Delete Contact</string>
+    <string name="search_nickname">Search nickname…</string>
 </resources>

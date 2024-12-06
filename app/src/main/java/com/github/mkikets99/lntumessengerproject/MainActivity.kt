@@ -7,13 +7,19 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.firebase.ui.auth.AuthUI
+import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.AuthorizationLayoutBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.Firebase
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.database
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: AuthorizationLayoutBinding
     private lateinit var auth: FirebaseAuth
+
+    private val database: FirebaseDatabase = Firebase.database("https://lntu-messenger-project-default-rtdb.europe-west1.firebasedatabase.app/")
 
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -67,6 +73,9 @@ class MainActivity : AppCompatActivity() {
     }
     private fun switchToChats(){
         if( auth.currentUser != null) {
+            val user = User(FirebaseAuth.getInstance().uid!!,FirebaseAuth.getInstance().uid!!)
+
+            database.reference.child("users").child(FirebaseAuth.getInstance().uid!!).setValue(user)
             val intent = Intent(this, MainListActivity::class.java)
             startActivity(intent)
             finish()
