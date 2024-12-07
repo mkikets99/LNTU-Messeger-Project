@@ -29,7 +29,7 @@ class MainListAdapter(
         val naming: TextView = view.findViewById(R.id.chat_row_naming)
         val texting: TextView = view.findViewById(R.id.chat_row_texting)
 
-        item.users!!.remove(this.user.uuid)
+        item.users!!.remove(this.user._key)
         Firebase.firestore.collection("users").document(item.users[0]).get().addOnSuccessListener {
             naming.text = it.getString("name")
         }
