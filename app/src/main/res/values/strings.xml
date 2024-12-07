@@ -2,7 +2,7 @@
     <string name="app_name">LNTU Messenger Project</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="auth">Auth</string>
-    <string name="authPageString">увійти за допомогою Google</string>
+    <string name="authPageString">Увійти за допомогою Google</string>
     <string name="projectName">LNTU Messenger</string>
     <string name="default_web_client_id">971885678604-gn6j9l78erlmk0ejdfp4kj34jmvhsicu.apps.googleusercontent.com</string>
     <string name="title_activity_main_list">MainList</string>
