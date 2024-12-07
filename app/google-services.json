@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "971885678604",
+    "project_id": "lntu-messenger-project",
+    "storage_bucket": "lntu-messenger-project.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:971885678604:android:3acbfd30e6240c6abc5e29",
+        "android_client_info": {
+          "package_name": "com.github.mkikets99.lntumessengerproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "971885678604-gn6j9l78erlmk0ejdfp4kj34jmvhsicu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1ZEkzj8jftweZlSRqo7DmuSZH8JtCwNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "971885678604-gn6j9l78erlmk0ejdfp4kj34jmvhsicu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
