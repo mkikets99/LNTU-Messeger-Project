@@ -4,12 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toLowerCase
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.doOnTextChanged
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.Firebase
@@ -34,9 +38,25 @@ class ContactSearchList : AppCompatActivity() {
         }
         users = ArrayList()
         val mListView = findViewById<ListView>(R.id.contactList)
-        val arrAdapt: ArrayAdapter<*> = ArrayAdapter(this,
+        val searchBar = findViewById<EditText>(R.id.searchField)
+
+        var arrAdapt: ArrayAdapter<*> = ArrayAdapter(this,
             android.R.layout.simple_list_item_1, users!!
         )
+
+        searchBar.doOnTextChanged { text, start, before, count ->
+           // Toast.makeText(this@ContactSearchList,text,Toast.LENGTH_SHORT).show()
+            var items = users!!.clone() as ArrayList<User>
+            items = ArrayList(items.filter { u ->
+                u.name.toLowerCase(Locale.current).contains(text.toString().toLowerCase(Locale.current))
+            }.toList())
+            arrAdapt = ArrayAdapter(this,
+                android.R.layout.simple_list_item_1, items
+            )
+            mListView.adapter = arrAdapt
+            arrAdapt.notifyDataSetChanged()
+        }
+
         mListView.adapter = arrAdapt
         database.collection("users")
             .get().addOnSuccessListener {

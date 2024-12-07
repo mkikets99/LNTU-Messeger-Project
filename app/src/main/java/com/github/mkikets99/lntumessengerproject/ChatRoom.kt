@@ -46,8 +46,8 @@ class ChatRoom : AppCompatActivity() {
             currentChat!!.messages!!.add(msg)
             Firebase.firestore.collection("chats")
                 .document(currentChat!!._key!!).set(currentChat!!).addOnSuccessListener {
-                    (messagesList.adapter as ArrayAdapter<String>).add(buildMessage(msg))
-                    (messagesList.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                    //(messagesList.adapter as ArrayAdapter<String>).add(buildMessage(msg))
+                    //(messagesList.adapter as ArrayAdapter<*>).notifyDataSetChanged()
             }
         }
 
@@ -62,6 +62,20 @@ class ChatRoom : AppCompatActivity() {
                             val cha = docs.toObject(Chat::class.java)!!
                             if(cha.users!!.contains(userIAmWith._key!!)){
                                 currentChat = cha
+                                Firebase.firestore.collection("chats").document(docs.id).addSnapshotListener{
+                                    snap,e ->
+                                    if(e!=null){
+                                        finish()
+                                    }
+                                    if(snap!=null && snap.exists()){
+                                        currentChat = snap.toObject(Chat::class.java)!!
+                                        (messagesList.adapter as ArrayAdapter<*>).clear()
+                                        for(msg in buildMessages()){
+                                            (messagesList.adapter as ArrayAdapter<String>).add(msg)
+                                        }
+                                        (messagesList.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+                                    }
+                                }
                                 break
                             }
                         }
