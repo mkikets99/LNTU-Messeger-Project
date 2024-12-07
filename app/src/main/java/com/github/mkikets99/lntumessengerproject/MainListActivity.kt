@@ -2,6 +2,7 @@ package com.github.mkikets99.lntumessengerproject
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
@@ -42,7 +43,18 @@ class MainListActivity : AppCompatActivity() {
                     chats!!.clear()
                     for(chatObj in it.documents){
                         val chat = chatObj.toObject(Chat::class.java)!!
+                        chat._key = chatObj.id
                         chats!!.add(chat)
+                        val ind = chats!!.size-1
+                        database.collection("chats").document(chat._key!!).addSnapshotListener{
+                            snap,e ->
+                            if(e!=null){
+                                Log.e("MainListActivity",e.message.toString())
+                                finish()
+                            }
+                            chats!![ind] = snap!!.toObject(Chat::class.java)!!
+                            adapter!!.notifyDataSetChanged()
+                        }
                     }
                     adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
                     binding.mainListRootListView.adapter = adapter
