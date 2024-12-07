@@ -1,1 +1,19 @@
-none of your business yet
+LNTU Messanger Project
+
+Task: develop simple messanger project using Firebase
+
+Sub-tasks:
+
+ - Auth (Google)
+ - Chat List
+ - Contact Page
+ - Chat Room
+ - Contact search
+ - Auto update on new message
+
+TechStack:
+
+ - Kotlin
+ - XML
+ - Firebase.Authentification
+ - Firebase.Firestore
