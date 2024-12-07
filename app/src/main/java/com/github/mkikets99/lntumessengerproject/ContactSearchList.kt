@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -39,6 +40,11 @@ class ContactSearchList : AppCompatActivity() {
         users = ArrayList()
         val mListView = findViewById<ListView>(R.id.contactList)
         val searchBar = findViewById<EditText>(R.id.searchField)
+        val btn_b = findViewById<ImageButton>(R.id.backButton)
+
+        btn_b.setOnClickListener{
+            finish()
+        }
 
         var arrAdapt: ArrayAdapter<*> = ArrayAdapter(this,
             android.R.layout.simple_list_item_1, users!!
