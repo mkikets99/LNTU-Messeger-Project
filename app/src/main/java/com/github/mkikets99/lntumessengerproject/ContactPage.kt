@@ -1,11 +1,11 @@
 package com.github.mkikets99.lntumessengerproject
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -33,7 +33,7 @@ class ContactPage : AppCompatActivity() {
         val msgBtn = findViewById<Button>(R.id.b_chat_contact)
         val dltBtn = findViewById<Button>(R.id.b_remove_contact)
         val addBtn = findViewById<Button>(R.id.b_add_contact)
-        val bkBtn = findViewById<Button>(R.id.back_b)
+        val bkBtn = findViewById<ImageButton>(R.id.back_b)
 
         addBtn.setOnClickListener{
             currentLookUser!!._key?.let { it1 -> currentUser!!.friends.add(it1) }
