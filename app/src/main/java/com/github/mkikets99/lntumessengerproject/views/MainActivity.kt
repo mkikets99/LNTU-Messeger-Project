@@ -6,8 +6,14 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.github.mkikets99.lntumessengerproject.authActivity
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.AuthorizationLayoutBinding
 import com.github.mkikets99.lntumessengerproject.services.FirebaseService
@@ -34,37 +40,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = AuthorizationLayoutBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-        FirebaseService.instance.init(this)
-        sharedPref = this.getSharedPreferences("settings", MODE_PRIVATE)
-        // Initialize Firebase Auth
-        naming = binding.nameField
-        if(sharedPref.contains("username")){
-            naming.text.append(sharedPref.getString("username",""))
+        enableEdgeToEdge()
+        setContent {
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = "AuthActivity", builder = {
+                composable("AuthActivity"){
+                    authActivity(navController)
+                }
+                composable("MainList"){
+                    MainList(navController)
+                }
+            })
         }
-
-        // Set the Google sign-in button click listener
-        binding.googleButton.setOnClickListener {
-                signInWithGoogle()
-
-                Toast.makeText(this,"Test",Toast.LENGTH_LONG).show()
-            }
-//        setContent {
-//            LNTUMessengerProjectTheme {
-//                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-////                    Greeting(
-////                        name = "Android",
-////                        modifier = Modifier.padding(innerPadding)
-////                    )
-//                    TestMessenger(Modifier.padding(innerPadding))
-//                }
-//            }
-//        }
-//        test(param1 = "MyName") {
-//            Log.d("MyTag","")
-//        }
     }
 
     public override fun onStart() {

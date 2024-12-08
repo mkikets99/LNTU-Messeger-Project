@@ -52,10 +52,13 @@ android {
     viewBinding {
         enable = true
     }
+
 }
 
 dependencies {
+    val nav_version = "2.8.4"
 
+    implementation("androidx.navigation:navigation-compose:$nav_version")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
