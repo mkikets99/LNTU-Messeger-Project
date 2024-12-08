@@ -5,13 +5,17 @@ import android.content.Intent
 import androidx.activity.result.ActivityResultLauncher
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.google.firebase.initialize
 
 class FirebaseService {
 
     private lateinit var database: FirebaseFirestore
+    private lateinit var auth: FirebaseAuth
 
     companion object {
         val instance = FirebaseService()
@@ -20,16 +24,17 @@ class FirebaseService {
     fun init(context: Context){
         Firebase.initialize(context)
         database = Firebase.firestore
+        auth = FirebaseAuth.getInstance()
     }
 
-    fun requestData(collection: String,callback: (Any?,Exception?) -> Void ){
+    fun requestData(collection: String, callback: (QuerySnapshot?, Exception?) -> Unit){
         database.collection(collection).get().addOnSuccessListener {
             callback(it,null)
         }.addOnFailureListener {
             callback(null,it)
         }
     }
-    fun requestData(collection: String, document: String,callback: (Any?,Exception?) -> Void ){
+    fun requestData(collection: String, document: String,callback: (DocumentSnapshot?,Exception?) -> Void ){
         database.collection(collection).document(document).get().addOnSuccessListener {
             callback(it,null)
         }.addOnFailureListener {
@@ -59,4 +64,6 @@ class FirebaseService {
 
         callback.launch(signInIntent)
     }
+
+    fun collectAuthData(): FirebaseAuth { return auth }
 }

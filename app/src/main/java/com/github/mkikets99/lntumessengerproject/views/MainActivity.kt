@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         FirebaseService.instance.init(this)
         sharedPref = this.getSharedPreferences("settings", Context.MODE_PRIVATE)
         // Initialize Firebase Auth
-        auth = FirebaseAuth.getInstance()
         naming = binding.nameField
         if(sharedPref.contains("username")){
             naming.text.append(sharedPref.getString("username",""))
@@ -77,20 +76,24 @@ class MainActivity : AppCompatActivity() {
         if( auth.currentUser != null) {
             var user = User(naming.text.toString(),FirebaseAuth.getInstance().uid!!, ArrayList())
 
-            database.collection("users").get().addOnSuccessListener {
-                for (docs in it.documents) {
-                    if(docs.contains("uuid")&& docs["uuid"]!! == FirebaseAuth.getInstance().uid!!){
+            FirebaseService.instance.requestData("users") { it, ex ->
+                if (ex != null) {
+                    Log.e("MainActivity", ex.message.toString())
+                    finish()
+                }
+                for (docs in it!!.documents) {
+                    if (docs.contains("uuid") && docs["uuid"]!! == FirebaseAuth.getInstance().uid!!) {
                         user = docs.toObject(User::class.java)!!
                         user._key = docs.id
                         database.collection("users").document(docs.id).set(user)
                     }
                 }
-                if (user._key == null){
+                if (user._key == null) {
                     database.collection("users").add(user).addOnSuccessListener {
                         user._key = it.id
                     }
                 }
-                with (sharedPref.edit()) {
+                with(sharedPref.edit()) {
                     putString("username", naming.text.toString())
                     apply()
                 }
