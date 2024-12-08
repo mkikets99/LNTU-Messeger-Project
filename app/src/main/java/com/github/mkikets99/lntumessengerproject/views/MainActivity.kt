@@ -9,12 +9,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.firebase.ui.auth.AuthUI
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.AuthorizationLayoutBinding
+import com.github.mkikets99.lntumessengerproject.services.FirebaseService
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import java.util.ArrayList
@@ -30,24 +29,12 @@ class MainActivity : AppCompatActivity() {
 
     private val database: FirebaseFirestore = Firebase.firestore
 
-    private val googleSignInLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-        if (result.resultCode == RESULT_OK) {
-            switchToChats()
-
-//            Toast.makeText(this, "Welcome ${user?.displayName}", Toast.LENGTH_SHORT).show()
-        } else {
-            Log.e("FirebaseUI", "Sign-in failed")
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = AuthorizationLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        FirebaseApp.initializeApp(this)
+        FirebaseService.instance.init(this)
         sharedPref = this.getSharedPreferences("settings", Context.MODE_PRIVATE)
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
@@ -116,15 +103,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun signInWithGoogle() {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.GoogleBuilder().build()
-        )
-
-        val signInIntent = AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(providers)
-            .build()
-        googleSignInLauncher.launch(signInIntent)
+        FirebaseService.instance.requestAuth(registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            if (result.resultCode == RESULT_OK) {
+                switchToChats()
+            } else {
+                Log.e("FirebaseUI", "Sign-in failed")
+            }
+        })
     }
 
 
