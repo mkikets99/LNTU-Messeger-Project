@@ -7,8 +7,9 @@ import androidx.navigation.NavController
 
 @Composable
 fun MainList (navController: NavController){
-    Text(text = "flfkfk")
+    Text(text = "ffjf")
     Button(onClick = {
         navController.navigate("ChatPage")
     }) { Text(text = "ChatPage") }
+
 }
