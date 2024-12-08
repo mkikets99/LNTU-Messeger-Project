@@ -43,7 +43,7 @@ import com.github.mkikets99.lntumessengerproject.ui.theme.CustomTextField
 import com.github.mkikets99.lntumessengerproject.ui.theme.LNTUMessengerProjectTheme
 
 @Composable
-fun authActivity(navController: NavController){
+fun AuthActivity(navController: NavController){
     LNTUMessengerProjectTheme {
         Box(
             modifier = Modifier.fillMaxSize()

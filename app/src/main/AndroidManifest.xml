@@ -25,14 +25,12 @@
             android:name=".views.MainListActivity"
             android:exported="false"
             android:label="@string/title_activity_main_list"
-            android:screenOrientation="sensorPortrait"
-            android:theme="@style/Theme.LNTUMessengerProject.NoActionBar"
+            android:theme="@style/Theme.LNTUMessengerProject"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
             android:name=".views.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
-            android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.LNTUMessengerProject.NoActionBar"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
