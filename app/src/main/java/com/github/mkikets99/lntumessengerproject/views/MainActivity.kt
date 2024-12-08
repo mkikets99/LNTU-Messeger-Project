@@ -1,4 +1,4 @@
-package com.github.mkikets99.lntumessengerproject
+package com.github.mkikets99.lntumessengerproject.views
 
 import android.content.Context
 import android.content.Intent

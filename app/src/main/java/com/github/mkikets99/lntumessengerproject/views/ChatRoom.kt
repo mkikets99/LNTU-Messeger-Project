@@ -1,4 +1,4 @@
-package com.github.mkikets99.lntumessengerproject
+package com.github.mkikets99.lntumessengerproject.views
 
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.github.mkikets99.lntumessengerproject.R
 import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.Message
 import com.github.mkikets99.lntumessengerproject.classes.User

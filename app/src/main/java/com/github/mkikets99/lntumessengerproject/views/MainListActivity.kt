@@ -1,9 +1,10 @@
-package com.github.mkikets99.lntumessengerproject
+package com.github.mkikets99.lntumessengerproject.views
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.github.mkikets99.lntumessengerproject.controllers.MainListAdapter
 import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.ActivityMainListBinding
