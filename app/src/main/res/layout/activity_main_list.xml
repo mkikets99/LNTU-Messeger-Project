@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/mainListRoot"
     android:fitsSystemWindows="true"
-    tools:context=".MainListActivity">
+    tools:context=".views.MainListActivity">
 
     <ListView
         android:layout_width="match_parent"

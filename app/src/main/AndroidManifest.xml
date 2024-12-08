@@ -13,23 +13,23 @@
         android:theme="@style/Theme.LNTUMessengerProject"
         tools:targetApi="31">
         <activity
-            android:name=".ContactPage"
+            android:name=".views.ContactPage"
             android:exported="false" />
         <activity
-            android:name=".ChatRoom"
+            android:name=".views.ChatRoom"
             android:exported="false" />
         <activity
-            android:name=".ContactSearchList"
+            android:name=".views.ContactSearchList"
             android:exported="false" />
         <activity
-            android:name=".MainListActivity"
+            android:name=".views.MainListActivity"
             android:exported="false"
             android:label="@string/title_activity_main_list"
             android:screenOrientation="sensorPortrait"
             android:theme="@style/Theme.LNTUMessengerProject.NoActionBar"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".views.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
             android:screenOrientation="sensorPortrait"

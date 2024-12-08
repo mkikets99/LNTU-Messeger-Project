@@ -1,4 +1,4 @@
-package com.github.mkikets99.lntumessengerproject
+package com.github.mkikets99.lntumessengerproject.views
 
 import android.content.Intent
 import android.os.Bundle
@@ -15,6 +15,7 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
+import com.github.mkikets99.lntumessengerproject.R
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.Firebase
