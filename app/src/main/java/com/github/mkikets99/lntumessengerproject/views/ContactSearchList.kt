@@ -17,16 +17,11 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import com.github.mkikets99.lntumessengerproject.R
 import com.github.mkikets99.lntumessengerproject.classes.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
+import com.github.mkikets99.lntumessengerproject.services.FirebaseService
 
 class ContactSearchList : AppCompatActivity() {
-    private var users : ArrayList<User>? = null
-    private var user : User? = null
-
-    private val database: FirebaseFirestore = Firebase.firestore
+    private var users: ArrayList<User>? = null
+    private var user: User? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,54 +38,74 @@ class ContactSearchList : AppCompatActivity() {
         val searchBar = findViewById<EditText>(R.id.searchField)
         val btn_b = findViewById<ImageButton>(R.id.backButton)
 
-        btn_b.setOnClickListener{
+        btn_b.setOnClickListener {
             finish()
         }
 
-        var arrAdapt: ArrayAdapter<*> = ArrayAdapter(this,
+        var arrAdapt: ArrayAdapter<*> = ArrayAdapter(
+            this,
             android.R.layout.simple_list_item_1, users!!
         )
 
-        searchBar.doOnTextChanged { text, start, before, count ->
-           // Toast.makeText(this@ContactSearchList,text,Toast.LENGTH_SHORT).show()
-            var items = users!!.clone() as ArrayList<User>
-            items = ArrayList(items.filter { u ->
-                u.name.toLowerCase(Locale.current).contains(text.toString().toLowerCase(Locale.current))
-            }.toList())
-            arrAdapt = ArrayAdapter(this,
-                android.R.layout.simple_list_item_1, items
-            )
-            mListView.adapter = arrAdapt
-            arrAdapt.notifyDataSetChanged()
+        searchBar.doOnTextChanged { text, _, _, _ ->
+            // Toast.makeText(this@ContactSearchList,text,Toast.LENGTH_SHORT).show()
+            FirebaseService.instance.requestData("users") { it, ex ->
+                if (ex != null) {
+                    Log.e(this.javaClass.name, ex.message.toString())
+                    finish()
+                }
+                val items = java.util.ArrayList<String>()
+                for (snapshot1 in it!!.documents) {
+                    val user: User = snapshot1.toObject(User::class.java)!!
+                    if (user.name.toLowerCase(Locale.current)
+                            .contains(text.toString().toLowerCase(Locale.current))) {
+                        items.add(user.toString())
+
+                    }
+                }
+                arrAdapt = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_list_item_1, items
+                )
+                mListView.adapter = arrAdapt
+                arrAdapt.notifyDataSetChanged()
+            }
+
         }
 
         mListView.adapter = arrAdapt
-        database.collection("users")
-            .get().addOnSuccessListener {
-                    for (snapshot1 in it.documents){
-                        val user: User? = snapshot1.toObject(User::class.java)
-                        if(user!!.uuid.equals(FirebaseAuth.getInstance().uid)) {
-                            this.user = user
-                            break
-                        }
-                    }
+        FirebaseService.instance.requestData("users") { it, ex ->
+            if (ex != null) {
+                Log.e(this.javaClass.name, ex.message.toString())
+                finish()
             }
+            for (snapshot1 in it!!.documents) {
+                val user: User? = snapshot1.toObject(User::class.java)
+                if (user!!.uuid == FirebaseService.instance.collectAuthData().uid) {
+                    this.user = user
+                    break
+                }
+            }
+        }
         mListView.setOnItemClickListener { parent, view, position, id ->
             Toast.makeText(this, "Clicked item : $position", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, ContactPage::class.java)
             intent.putExtra("user", users!![position]._key)
             this.startActivity(intent)
         }
-        database.collection("users").get().addOnSuccessListener{
-                users!!.clear()
-                for (snapshot1 in it.documents){
-                    val user: User? = snapshot1.toObject(User::class.java)
-                    user!!._key = snapshot1.id
-                    if(!user.uuid.equals(FirebaseAuth.getInstance().uid)) users!!.add(user)
-                }
-                arrAdapt.notifyDataSetChanged()
-            }.addOnFailureListener {
-            it.message?.let { it1 -> Log.e("FirebaseDatabase", it1) }
+        FirebaseService.instance.requestData("users") { it, ex ->
+            if (ex != null) {
+                Log.e(this.javaClass.name, ex.message.toString())
+                finish()
+            }
+            users!!.clear()
+            for (snapshot1 in it!!.documents) {
+                val user: User? = snapshot1.toObject(User::class.java)
+                user!!._key = snapshot1.id
+                if (!user.uuid.equals(FirebaseService.instance.collectAuthData().uid)) users!!.add(user)
+            }
+            arrAdapt.notifyDataSetChanged()
+
         }
 
     }
