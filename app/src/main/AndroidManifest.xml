@@ -17,6 +17,7 @@
             android:exported="true"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.LNTUMessengerProject.NoActionBar"
+            android:screenOrientation="sensorPortrait"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

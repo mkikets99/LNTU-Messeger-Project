@@ -3,19 +3,16 @@ package com.github.mkikets99.lntumessengerproject.views
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
 import com.github.mkikets99.lntumessengerproject.controllers.IntNavController
-import com.github.mkikets99.lntumessengerproject.databinding.AuthorizationLayoutBinding
 import com.github.mkikets99.lntumessengerproject.services.FirebaseService
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: AuthorizationLayoutBinding
-
-    private lateinit var naming: EditText
 
     private val googleAct = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -31,7 +28,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
+            WindowInsets.safeDrawing
             IntNavController()
         }
     }

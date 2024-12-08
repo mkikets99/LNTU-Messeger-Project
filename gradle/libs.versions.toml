@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.2"
+constraintlayoutCompose = "1.1.0"
 firebaseAdmin = "9.4.2"
 firebaseBom = "33.6.0"
 firebaseUiAuth = "7.2.0"
@@ -14,13 +15,16 @@ lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
 composeBom = "2024.11.00"
 constraintlayout = "2.2.0"
+navigationCompose = "2.8.4"
 playServicesAuthVersion = "20.7.0"
 activity = "1.8.0"
 navigationRuntimeKtx = "2.8.4"
 
 [libraries]
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }

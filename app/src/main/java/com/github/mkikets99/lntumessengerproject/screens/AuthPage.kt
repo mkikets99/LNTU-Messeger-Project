@@ -1,12 +1,11 @@
 package com.github.mkikets99.lntumessengerproject.screens
 
-import androidx.compose.foundation.layout.Box
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
+import com.github.mkikets99.lntumessengerproject.views.ChatPageView
 
 @Composable
 fun AuthPage(navController: NavController) {
-    Box(Modifier)
+    ChatPageView()
 }
