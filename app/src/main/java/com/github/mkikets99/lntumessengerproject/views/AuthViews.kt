@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Composable
-fun authActivity(navController: NavController){
+fun AuthViews(navController: NavController){
     Column (Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center) {
@@ -30,7 +30,11 @@ fun authActivity(navController: NavController){
             })
 
         Button(onClick = {
-            navController.navigate("MainList")
-        }) { Text(text = "Login") }
+            navController.navigate("MainList") {
+                popUpTo("AuthActivity"){inclusive=true}
+            }
+        }) {
+            Text(text = "Login")
+        }
     }
 }

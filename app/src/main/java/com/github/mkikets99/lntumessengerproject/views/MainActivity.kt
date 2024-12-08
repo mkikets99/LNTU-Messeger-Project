@@ -10,10 +10,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.window.isPopupLayout
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.github.mkikets99.lntumessengerproject.authActivity
+import com.github.mkikets99.lntumessengerproject.AuthViews
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.AuthorizationLayoutBinding
 import com.github.mkikets99.lntumessengerproject.services.FirebaseService
@@ -40,15 +41,17 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "AuthActivity", builder = {
                 composable("AuthActivity"){
-                    authActivity(navController)
+                    AuthViews(navController)
                 }
                 composable("MainList"){
                     MainList(navController)
+                }
+                composable("ChatPage"){
+                    ChatPage(navController)
                 }
             })
         }
