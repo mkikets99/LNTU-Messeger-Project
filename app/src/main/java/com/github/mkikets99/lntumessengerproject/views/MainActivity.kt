@@ -20,6 +20,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var naming: EditText
 
+    private val googleAct = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            switchToChats()
+        } else {
+            Log.e("FirebaseUI", "Sign-in failed")
+        }
+    }
+
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -112,15 +122,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun signInWithGoogle() {
-        FirebaseService.instance.requestAuth(registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                switchToChats()
-            } else {
-                Log.e("FirebaseUI", "Sign-in failed")
-            }
-        })
+        FirebaseService.instance.requestAuth(googleAct)
     }
 
 

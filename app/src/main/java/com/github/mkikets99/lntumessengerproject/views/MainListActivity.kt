@@ -1,13 +1,16 @@
 package com.github.mkikets99.lntumessengerproject.views
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.github.mkikets99.lntumessengerproject.controllers.MainListAdapter
 import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.ActivityMainListBinding
+import com.github.mkikets99.lntumessengerproject.services.FirebaseService
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -23,17 +26,26 @@ class MainListActivity : AppCompatActivity() {
     private var user: User? = null
 
     private val database: FirebaseFirestore = Firebase.firestore
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        enableEdgeToEdge()
         binding = ActivityMainListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         chats = ArrayList()
+        sharedPref = this.getSharedPreferences("settings", MODE_PRIVATE)
+        var u_key: String = ""
+        if(sharedPref.contains("user_key")){
+            u_key = sharedPref.getString("user_key","")!!
+        }
 
-        database.collection("users")
-            .get().addOnSuccessListener {
-                for (docs in it.documents) {
+        FirebaseService.instance.requestData("users"){ it,ex ->
+            if(ex != null){
+                Log.e("MainListActivity",ex.message.toString())
+                finish()
+            }
+                for (docs in it!!.documents) {
                     if (docs.get("uuid") == FirebaseAuth.getInstance().uid) {
                         user = docs.toObject(User::class.java)
                         user?._key = docs.id

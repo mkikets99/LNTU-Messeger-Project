@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.firestore
 import com.google.firebase.initialize
@@ -53,6 +54,20 @@ class FirebaseService {
     }
     fun requestData(collection: String, document: String,callback: (DocumentSnapshot?,Exception?) -> Unit ){
         database.collection(collection).document(document).get().addOnSuccessListener {
+            callback(it,null)
+        }.addOnFailureListener {
+            callback(null,it)
+        }
+    }
+    fun requestDataWithConditions(collection: String, conditions: Array<Pair<String,Pair<String,Any>>>, callback: (QuerySnapshot?, Exception?) -> Unit){
+        var query: Query = database.collection(collection)
+        for (condition in conditions){
+            when(condition.first){
+                "AC" -> query = query.whereArrayContains(condition.second.first,condition.second.second)
+                "In" -> query = query.whereIn(condition.second.first,condition.second.second as MutableList<*>)
+            }
+        }
+        query.get().addOnSuccessListener {
             callback(it,null)
         }.addOnFailureListener {
             callback(null,it)
