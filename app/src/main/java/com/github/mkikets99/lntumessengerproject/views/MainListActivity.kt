@@ -11,10 +11,7 @@ import com.github.mkikets99.lntumessengerproject.classes.Chat
 import com.github.mkikets99.lntumessengerproject.classes.User
 import com.github.mkikets99.lntumessengerproject.databinding.ActivityMainListBinding
 import com.github.mkikets99.lntumessengerproject.services.FirebaseService
-import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
 import java.util.ArrayList
 
 class MainListActivity : AppCompatActivity() {
@@ -25,7 +22,6 @@ class MainListActivity : AppCompatActivity() {
     private var chats: ArrayList<Chat>? = null
     private var user: User? = null
 
-    private val database: FirebaseFirestore = Firebase.firestore
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,45 +31,53 @@ class MainListActivity : AppCompatActivity() {
         setContentView(binding.root)
         chats = ArrayList()
         sharedPref = this.getSharedPreferences("settings", MODE_PRIVATE)
-        var u_key: String = ""
-        if(sharedPref.contains("user_key")){
-            u_key = sharedPref.getString("user_key","")!!
-        }
+        // TODO: For later use with states
+//        @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE","NEVER_USED")
+//        var uKey = ""
+//        if (sharedPref.contains("user_key")) {
+//            uKey = sharedPref.getString("user_key", "")!!
+//        }
 
-        FirebaseService.instance.requestData("users"){ it,ex ->
-            if(ex != null){
-                Log.e("MainListActivity",ex.message.toString())
+        FirebaseService.instance.requestData("users") { it, ex ->
+            if (ex != null) {
+                Log.e("MainListActivity", ex.message.toString())
                 finish()
             }
-                for (docs in it!!.documents) {
-                    if (docs.get("uuid") == FirebaseAuth.getInstance().uid) {
-                        user = docs.toObject(User::class.java)
-                        user?._key = docs.id
-                        break
-                    }
+            for (docs in it!!.documents) {
+                if (docs.get("uuid") == FirebaseAuth.getInstance().uid) {
+                    user = docs.toObject(User::class.java)
+                    user?._key = docs.id
+                    break
                 }
-                database.collection("chats").whereArrayContains("users",user!!._key!!).get().addOnSuccessListener {
-                    chats!!.clear()
-                    for(chatObj in it.documents){
-                        val chat = chatObj.toObject(Chat::class.java)!!
-                        chat._key = chatObj.id
-                        chats!!.add(chat)
-                        val ind = chats!!.size-1
-                        database.collection("chats").document(chat._key!!).addSnapshotListener{
-                            snap,e ->
-                            if(e!=null){
-                                Log.e("MainListActivity",e.message.toString())
+            }
+            FirebaseService.instance.requestDataWithConditions(
+                "chats",
+                arrayOf("AC" to ("users" to user!!._key)),
+            ) { it1, e ->
+                if (e != null) {
+                    Log.e(this.javaClass.name, e.message.toString())
+                    finish()
+                }
+                chats!!.clear()
+                for (chatObj in it1!!.documents) {
+                    val chat = chatObj.toObject(Chat::class.java)!!
+                    chat._key = chatObj.id
+                    chats!!.add(chat)
+                    val ind = chats!!.size - 1
+                    FirebaseService.instance.signForData("chats",chat._key!!) { snap, ex ->
+                            if (ex != null) {
+                                Log.e("MainListActivity", ex.message.toString())
                                 finish()
                             }
                             chats!![ind] = snap!!.toObject(Chat::class.java)!!
-                            adapter!!.notifyDataSetChanged()
+                            adapter.notifyDataSetChanged()
                         }
-                    }
-                    adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
-                    binding.mainListRootListView.adapter = adapter
                 }
-
+                adapter = MainListAdapter(this@MainListActivity, chats!!, user!!)
+                binding.mainListRootListView.adapter = adapter
             }
+
+        }
 //                (FirebaseAuth.getInstance().uid!!)
 //                    .(object : ValueEventListener {
 //                        override fun onDataChange(snapshot: DataSnapshot) {
@@ -96,13 +100,13 @@ class MainListActivity : AppCompatActivity() {
 //                    })
 
 
-        binding.mainListRootListView.setOnItemClickListener{ parent,view,position,id, ->
+        binding.mainListRootListView.setOnItemClickListener { parent, view, position, id ->
             val intent = Intent(this, ChatRoom::class.java)
             val usersChat = chats!![position].users!!.clone() as ArrayList<*>
             usersChat.remove(user!!._key)
 
-            intent.putExtra("cw",usersChat[0].toString())
-            intent.putExtra("uia",user!!._key)
+            intent.putExtra("cw", usersChat[0].toString())
+            intent.putExtra("uia", user!!._key)
             startActivity(intent)
 
         }

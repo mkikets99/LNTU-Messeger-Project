@@ -59,11 +59,11 @@ class FirebaseService {
             callback(null,it)
         }
     }
-    fun requestDataWithConditions(collection: String, conditions: Array<Pair<String,Pair<String,Any>>>, callback: (QuerySnapshot?, Exception?) -> Unit){
+    fun requestDataWithConditions(collection: String, conditions: Array<Pair<String,Pair<String,Any?>>>, callback: (QuerySnapshot?, Exception?) -> Unit){
         var query: Query = database.collection(collection)
         for (condition in conditions){
             when(condition.first){
-                "AC" -> query = query.whereArrayContains(condition.second.first,condition.second.second)
+                "AC" -> query = query.whereArrayContains(condition.second.first,condition.second.second?:"")
                 "In" -> query = query.whereIn(condition.second.first,condition.second.second as MutableList<*>)
             }
         }
@@ -74,12 +74,12 @@ class FirebaseService {
         }
     }
 
-    fun signForData(collection: String,callback: (Any?,Exception?) -> Unit ){
+    fun signForData(collection: String,callback: (QuerySnapshot?,Exception?) -> Unit ){
         database.collection(collection).addSnapshotListener{ snap,e->
             callback(snap,e)
         }
     }
-    fun signForData(collection: String, document: String,callback: (Any?,Exception?) -> Unit ){
+    fun signForData(collection: String, document: String,callback: (DocumentSnapshot?,Exception?) -> Unit ){
         database.collection(collection).document(document).addSnapshotListener{ snap,e->
             callback(snap,e)
         }
