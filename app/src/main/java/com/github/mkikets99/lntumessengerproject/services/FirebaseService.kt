@@ -6,6 +6,7 @@ import androidx.activity.result.ActivityResultLauncher
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
@@ -27,6 +28,22 @@ class FirebaseService {
         auth = FirebaseAuth.getInstance()
     }
 
+
+    fun appendData(collection: String, data: Any, callback: (DocumentReference?, Exception?) -> Unit){
+        database.collection(collection).add(data).addOnSuccessListener {
+            callback(it,null)
+        }.addOnFailureListener {
+            callback(null,it)
+        }
+    }
+    fun updateData(collection: String, document: String, data: Any, callback: (Void?, Exception?) -> Unit){
+        database.collection(collection).document(document).set(data).addOnSuccessListener {
+            callback(it,null)
+        }.addOnFailureListener {
+            callback(null,it)
+        }
+    }
+
     fun requestData(collection: String, callback: (QuerySnapshot?, Exception?) -> Unit){
         database.collection(collection).get().addOnSuccessListener {
             callback(it,null)
@@ -34,19 +51,20 @@ class FirebaseService {
             callback(null,it)
         }
     }
-    fun requestData(collection: String, document: String,callback: (DocumentSnapshot?,Exception?) -> Void ){
+    fun requestData(collection: String, document: String,callback: (DocumentSnapshot?,Exception?) -> Unit ){
         database.collection(collection).document(document).get().addOnSuccessListener {
             callback(it,null)
         }.addOnFailureListener {
             callback(null,it)
         }
     }
-    fun signForData(collection: String,callback: (Any?,Exception?) -> Void ){
+
+    fun signForData(collection: String,callback: (Any?,Exception?) -> Unit ){
         database.collection(collection).addSnapshotListener{ snap,e->
             callback(snap,e)
         }
     }
-    fun signForData(collection: String, document: String,callback: (Any?,Exception?) -> Void ){
+    fun signForData(collection: String, document: String,callback: (Any?,Exception?) -> Unit ){
         database.collection(collection).document(document).addSnapshotListener{ snap,e->
             callback(snap,e)
         }
