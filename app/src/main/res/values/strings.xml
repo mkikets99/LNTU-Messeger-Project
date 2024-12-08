@@ -107,4 +107,5 @@
     <string name="delete_contact_str">Delete Contact</string>
     <string name="search_nickname">Search nickname…</string>
     <string name="name_txt">Name</string>
+    <string name="name_not_available">Name not available</string>
 </resources>
