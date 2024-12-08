@@ -52,10 +52,13 @@ android {
     viewBinding {
         enable = true
     }
+
 }
 
 dependencies {
+    val nav_version = "2.8.4"
 
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -87,5 +90,6 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(kotlin("reflect"))
+    implementation(libs.androidx.constraintlayout.compose)
 
 }
