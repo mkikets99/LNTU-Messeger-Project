@@ -82,6 +82,7 @@ fun AuthActivity(navController: NavController){
 
             CustomButton(
                 onClick = { navController.navigate("MainList") },
+                modifier = Modifier
             ) {
                 Text(
                     text = "Login"
