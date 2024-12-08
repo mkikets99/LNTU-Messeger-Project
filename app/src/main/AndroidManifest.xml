@@ -13,21 +13,6 @@
         android:theme="@style/Theme.LNTUMessengerProject"
         tools:targetApi="31">
         <activity
-            android:name=".views.ContactPage"
-            android:exported="false" />
-        <activity
-            android:name=".views.ChatRoom"
-            android:exported="false" />
-        <activity
-            android:name=".views.ContactSearchList"
-            android:exported="false" />
-        <activity
-            android:name=".views.MainListActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main_list"
-            android:theme="@style/Theme.LNTUMessengerProject"
-            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
-        <activity
             android:name=".views.MainActivity"
             android:exported="true"
             android:label="@string/title_activity_main"
