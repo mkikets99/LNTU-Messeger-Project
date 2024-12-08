@@ -26,14 +26,20 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.NavController
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import com.github.mkikets99.lntumessengerproject.ui.theme.CustomButton
+import com.github.mkikets99.lntumessengerproject.ui.theme.CustomTextField
 import com.github.mkikets99.lntumessengerproject.ui.theme.LNTUMessengerProjectTheme
 
 @Composable
@@ -69,14 +75,18 @@ fun authActivity(navController: NavController){
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center) {
             var Name by remember { mutableStateOf("Name") }
-            TextField(
+            CustomTextField(
                 value = Name,
                 onValueChange = { newname -> Name = newname }
             )
 
-            Button(onClick = {
-                navController.navigate("MainList")
-            }) { Text(text = "Login") }
+            CustomButton(
+                onClick = { navController.navigate("MainList") },
+            ) {
+                Text(
+                    text = "Login"
+                )
+            }
         }
     }
 }
