@@ -30,7 +30,11 @@ fun authActivity(navController: NavController){
             })
 
         Button(onClick = {
-            navController.navigate("MainList")
-        }) { Text(text = "Login") }
+            navController.navigate("MainList") {
+                popUpTo("MainList"){inclusive=true}
+            }
+        }) {
+            Text(text = "Login")
+        }
     }
 }

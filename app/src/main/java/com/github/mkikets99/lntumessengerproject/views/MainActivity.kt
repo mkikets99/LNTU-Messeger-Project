@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.window.isPopupLayout
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = "AuthActivity", builder = {
@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 composable("MainList"){
                     MainList(navController)
+                }
+                composable("ChatPage"){
+                    ChatPage(navController)
                 }
             })
         }
