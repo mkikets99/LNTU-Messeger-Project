@@ -20,9 +20,9 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = Blue,
+    secondary = BlueSecondary,
+    tertiary = BlueTrinary
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -43,16 +43,17 @@ fun LNTUMessengerProjectTheme(
     content: @Composable () -> Unit
 ) {
     WindowInsets.safeDrawing
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
+    //val colorScheme = when {
+    //    dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+    //        val context = LocalContext.current
+    //        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    //    }
+//
+    //    darkTheme -> DarkColorScheme
+    //    else -> LightColorScheme
+    //}
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
-
+    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
     val typography = if (darkTheme) DarkTypography else LightTypography
 
     MaterialTheme(

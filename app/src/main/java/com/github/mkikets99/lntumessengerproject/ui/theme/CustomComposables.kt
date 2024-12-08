@@ -3,8 +3,10 @@ package com.github.mkikets99.lntumessengerproject.ui.theme
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -32,10 +34,12 @@ fun CustomColorButton(
     shape: Shape,
     primaryColor: Color,
     secondaryColor: Color,
+    contentPadding: PaddingValues,
     content: @Composable () -> Unit
 ) {
     Button(
         onClick = onClick,
+        contentPadding = contentPadding,
         modifier = modifier,
         shape = shape,
         colors = ButtonColors(
@@ -56,11 +60,13 @@ fun CustomColorButton(
     modifier: Modifier,
     primaryColor: Color,
     secondaryColor: Color,
+    contentPadding: PaddingValues,
     content: @Composable () -> Unit
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
+        contentPadding = contentPadding,
         colors = ButtonColors(
             containerColor = primaryColor,
             contentColor = secondaryColor,
@@ -78,12 +84,14 @@ fun CustomButton(
     onClick: () -> Unit,
     modifier: Modifier,
     shape: Shape,
+    contentPadding: PaddingValues,
     content: @Composable () -> Unit
 ) {
     Button(
         onClick = onClick,
         modifier = modifier,
         shape = shape,
+        contentPadding = contentPadding,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.secondary,
@@ -100,10 +108,12 @@ fun CustomButton(
 fun CustomButton(
     onClick: () -> Unit,
     modifier: Modifier,
+    contentPadding: PaddingValues,
     content: @Composable () -> Unit
 ) {
     Button(
         onClick = onClick,
+        contentPadding = contentPadding,
         modifier = modifier,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.primary,
@@ -120,10 +130,12 @@ fun CustomButton(
 @Composable
 fun CustomButton(
     onClick: () -> Unit,
+    contentPadding: PaddingValues,
     content: @Composable () -> Unit
 ) {
     Button(
         onClick = onClick,
+        contentPadding = contentPadding,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.secondary,
@@ -134,6 +146,45 @@ fun CustomButton(
     {
         content()
     }
+}
+
+@Composable
+fun CustomTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier,
+    shape: Shape
+){
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        shape = shape,
+        modifier = modifier,
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        )
+    )
+}
+
+@Composable
+fun CustomTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier
+){
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        singleLine = true,
+        modifier = modifier.fillMaxSize(),
+        shape = RoundedCornerShape(32.dp),
+        colors = TextFieldDefaults.colors(
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        )
+    )
 }
 
 @Composable

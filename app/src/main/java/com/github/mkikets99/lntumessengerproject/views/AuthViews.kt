@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonColors
@@ -82,7 +83,8 @@ fun AuthActivity(navController: NavController){
 
             CustomButton(
                 onClick = { navController.navigate("MainList") },
-                modifier = Modifier
+                modifier = Modifier,
+                contentPadding = PaddingValues(0.dp)
             ) {
                 Text(
                     text = "Login"

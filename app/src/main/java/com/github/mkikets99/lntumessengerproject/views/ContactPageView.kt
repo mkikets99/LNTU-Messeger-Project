@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -28,6 +29,7 @@ import androidx.compose.ui.focus.FocusRequester.Companion.createRefs
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.mkikets99.lntumessengerproject.ui.theme.CustomButton
@@ -35,6 +37,7 @@ import com.github.mkikets99.lntumessengerproject.ui.theme.CustomColorButton
 import com.github.mkikets99.lntumessengerproject.ui.theme.LNTUMessengerProjectTheme
 import com.google.android.material.shape.ShapeAppearanceModel
 
+@Preview
 @Composable
 fun ContactPageView(username: String = "user") {
     LNTUMessengerProjectTheme {
@@ -43,7 +46,7 @@ fun ContactPageView(username: String = "user") {
         )
         {
             Text(
-                modifier = Modifier.offset(y = 20.dp)
+                modifier = Modifier.offset(y = 120.dp)
                     .align(Alignment.TopCenter),
                 text = "Contact information",
                 fontSize = 23.sp,
@@ -52,22 +55,23 @@ fun ContactPageView(username: String = "user") {
             Box(
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .height(60.dp)
-                    .width(60.dp),) {
-                CustomColorButton(
+                    .height(50.dp)
+                    .width(50.dp),) {
+                CustomButton(
                     onClick = {},
                     modifier = Modifier.fillMaxSize(),/*,
                     shape = RoundedCornerShape(0.dp)*/
-                    primaryColor = Color(0xFF264ca0),
-                    secondaryColor = Color(0xFF01a288)
+                    contentPadding = PaddingValues(0.dp)
                 )
-                {}
-                Icon(
-                    imageVector = Icons.Default.ArrowBack,
+                {
+                    Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back button",
                     modifier = Modifier.fillMaxSize(),
-                    tint = Color(0xFF01a288)
+                    tint = MaterialTheme.colorScheme.secondary
                 )
+                }
+
             }
             Text(
                 text = username,
@@ -89,7 +93,8 @@ fun ContactPageView(username: String = "user") {
                     modifier = Modifier.height(70.dp)
                         .fillMaxWidth(),
                     primaryColor = Color(0xFF6db56c),
-                    secondaryColor = Color(0xFF6db5fd)
+                    secondaryColor = Color(0xFF6db5fd),
+                    contentPadding = PaddingValues(0.dp)
                 )
                 {
                     Text(
@@ -103,7 +108,8 @@ fun ContactPageView(username: String = "user") {
                     modifier = Modifier.height(70.dp)
                         .fillMaxWidth(),
                     primaryColor = Color(0xFFb087fd),
-                    secondaryColor = Color(0xFFf98792)
+                    secondaryColor = Color(0xFFf98792),
+                    contentPadding = PaddingValues(0.dp)
                 )
                 {
                     Text(
@@ -117,7 +123,8 @@ fun ContactPageView(username: String = "user") {
                     modifier = Modifier.height(70.dp)
                         .fillMaxWidth(),
                     primaryColor = Color(0xFFe5523a),
-                    secondaryColor = Color(0xFF99053d)
+                    secondaryColor = Color(0xFF99053d),
+                    contentPadding = PaddingValues(0.dp)
                 )
                 {
                     Text(
