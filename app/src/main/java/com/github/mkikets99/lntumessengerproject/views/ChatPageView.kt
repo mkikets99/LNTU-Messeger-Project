@@ -144,7 +144,7 @@ fun ChatPageView(username: String = "User"/*, model: MessagesModel*/) {
             ) {
                 /*items(model.messages) { item ->
                     ChatItem(item)
-                }*/
+                }TODO*/
             }
         }
     }

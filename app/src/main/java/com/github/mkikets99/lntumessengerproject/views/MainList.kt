@@ -82,7 +82,7 @@ fun MainList (/*navController: NavController TODO, model: ChatsModel*/){
             ) {
                 /*items(model.chats) { item ->
                     ChatItem(item)
-                }*/
+                }TODO*/
             }
             CustomColorButton(
                 onClick = {/*TODO*/},

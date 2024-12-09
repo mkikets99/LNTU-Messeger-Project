@@ -50,7 +50,8 @@ fun ContactPageView(username: String = "user") {
                     .align(Alignment.TopCenter),
                 text = "Contact information",
                 fontSize = 23.sp,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge
             )
             Box(
                 modifier = Modifier
@@ -99,6 +100,7 @@ fun ContactPageView(username: String = "user") {
                 {
                     Text(
                         text = "Message",
+                        style = MaterialTheme.typography.titleLarge,
                         fontSize = 24.sp
                     )
                 }
@@ -113,6 +115,7 @@ fun ContactPageView(username: String = "user") {
                 )
                 {
                     Text(
+                        style = MaterialTheme.typography.titleLarge,
                         text = "Add Friend",
                         fontSize = 24.sp
                     )
@@ -128,6 +131,7 @@ fun ContactPageView(username: String = "user") {
                 )
                 {
                     Text(
+                        style = MaterialTheme.typography.titleLarge,
                         text = "Delete Contact",
                         fontSize = 24.sp
                     )
