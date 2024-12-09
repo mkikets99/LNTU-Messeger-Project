@@ -55,7 +55,10 @@ fun ChatPageView(username: String = "User"/*, model: MessagesModel*/) {
                         end.linkTo(parent.end)
                 }
                     .fillMaxWidth()
-                    .background( MaterialTheme.colorScheme.primary )
+                    .background(
+                        MaterialTheme.colorScheme.primary,
+                        shape = RoundedCornerShape(20.dp)
+                    )
                     .height(50.dp)
             ) {
 
