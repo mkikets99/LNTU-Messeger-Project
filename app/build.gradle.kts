@@ -56,6 +56,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.googleid)
     val nav_version = "2.8.4"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
@@ -90,5 +91,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
     implementation(kotlin("reflect"))
+    implementation ("androidx.credentials:credentials:<latest version>")
+    implementation ("androidx.credentials:credentials-play-services-auth:<latest version>")
+    implementation ("com.google.android.libraries.identity.googleid:googleid:<latest version>")
 
 }
