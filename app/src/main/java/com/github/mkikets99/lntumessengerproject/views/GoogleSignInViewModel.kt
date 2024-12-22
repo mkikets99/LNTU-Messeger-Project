@@ -11,6 +11,7 @@ import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import com.github.mkikets99.lntumessengerproject.Data.AuthRepo
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.AuthResult
@@ -26,7 +27,7 @@ import kotlinx.coroutines.tasks.await
 import java.security.MessageDigest
 import java.util.UUID
 
-class GoogleSignInViewModel : ViewModel() {
+class GoogleSignInViewModel(private val authRepo: AuthRepo) : ViewModel() {
 
     val user = MutableLiveData<User>(null)
 

@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.mkikets99.lntumessengerproject.AuthActivity
+import com.github.mkikets99.lntumessengerproject.Data.AuthRepo
 import com.github.mkikets99.lntumessengerproject.screens.ChatListPage
 import com.github.mkikets99.lntumessengerproject.screens.ChatPage
 import com.github.mkikets99.lntumessengerproject.screens.ContactListPage
@@ -30,11 +31,18 @@ class MainActivity : ComponentActivity() {
 fun IntNavController() {
     val navController = rememberNavController()
     val context = LocalContext.current
-    val googleSignInViewModel = GoogleSignInViewModel()
 
+    val authRepo = AuthRepo()
+    authRepo.updateUser()
+    val googleSignInViewModel = GoogleSignInViewModel(authRepo)
+    val startDestination = if (authRepo.user == null) {
+        "GoogleSignInScreen"
+    } else {
+        "ChatListPage"
+    }
     NavHost(
         navController = navController,
-        startDestination = "AuthViews"
+        startDestination = startDestination
     ) {
         composable(route = "AuthViews") {
             AuthActivity {
